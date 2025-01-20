@@ -3,7 +3,7 @@ use reqwest::{Client, header};
 use tokio;
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn Error>> {
+pub async fn crawler() -> Result<(), Box<dyn Error>> {
     let client = Client::builder()
         .timeout(std::time::Duration::from_secs(30))
         .gzip(true)
@@ -40,20 +40,13 @@ async fn main() -> Result<(), Box<dyn Error>> {
             http1_client.get(url).headers(headers).send().await?
         }
     };
-
-    println!("Connected using protocol: {:?}", response.status().as_u16());
-    println!("Response status: {}", response.status());
-
+    
     if !response.status().is_success() {
         return Err(format!("Request failed with status: {}", response.status()).into());
     }
 
     let bytes = response.bytes().await?;
-    let html = String::from_utf8_lossy(&bytes);
-
-    println!("Response body length: {} bytes", bytes.len());
-    println!("\nResponse body:");
-    println!("{}", html);
+    let _html = String::from_utf8_lossy(&bytes);
 
     Ok(())
 }

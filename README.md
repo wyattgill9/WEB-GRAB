@@ -1,13 +1,13 @@
-# Crawler Challenge (Rust)
+# WEB-GRAB Challenge (Rust)
 
-Welcome to the **Crawler Challenge!** The goal is simple: create the **Fastest** web crawler in Rust.
+Welcome to the **WEB-GRAB Challenge!** The goal is simple: create the **Fastest** web crawler in Rust.
 
 ## Quickstart:
 
 1. **Clone the repo** and add your code in `src/your-github-username.rs`, and add it to `lib.rs`
 2. Your file must contain a function:
    ```rust
-   pub fn Crawler() -> String {
+   pub fn Crawler() -> Result<(), Box<dyn Error>> {
        let html = ""; // Your code to fetch the HTML of "example.com"
        html
    }

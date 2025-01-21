@@ -7,9 +7,9 @@ Welcome to the **WEB-GRAB Challenge!** The goal is simple: create the **Fastest*
 1. **Clone the repo** and add your code in `src/your-github-username.rs`, and add it to `lib.rs`
 2. Your file must contain a function:
    ```rust
-   pub fn Crawler() -> Result<(), Box<dyn Error>> {
-       let html = ""; // Your code to fetch the HTML of "example.com"
-       html
+   pub async fn crawler() -> Result<String, Box<dyn Error>> {
+       let html =  // Your code to fetch the HTML of "example.com"
+       Ok(html)
    }
    ```
 3. The function should return the HTML content of `"https://example.com"`.

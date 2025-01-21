@@ -1,9 +1,8 @@
 use std::error::Error;
 use reqwest::{Client, header};
-use tokio;
 
 #[tokio::main]
-pub async fn crawler() -> Result<(), Box<dyn Error>> {
+pub async fn crawler() -> Result<String, Box<dyn Error>> {
     let client = Client::builder()
         .timeout(std::time::Duration::from_secs(30))
         .gzip(true)
@@ -25,28 +24,26 @@ pub async fn crawler() -> Result<(), Box<dyn Error>> {
     );
 
     let url = "https://example.com";
-
     let response = match client.get(url).headers(headers.clone()).send().await {
         Ok(resp) => resp,
         Err(e) => {
             eprintln!("Initial request failed: {}", e);
             println!("Retrying with HTTP/1.1 only...");
-            
+           
             let http1_client = Client::builder()
                 .timeout(std::time::Duration::from_secs(30))
-                .http1_only() 
+                .http1_only()
                 .build()?;
-            
+           
             http1_client.get(url).headers(headers).send().await?
         }
     };
-    
+   
     if !response.status().is_success() {
         return Err(format!("Request failed with status: {}", response.status()).into());
     }
 
     let bytes = response.bytes().await?;
-    let _html = String::from_utf8_lossy(&bytes);
-
-    Ok(())
+    let html = String::from_utf8_lossy(&bytes).to_string();
+    Ok(html)
 }
